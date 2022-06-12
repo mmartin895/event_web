@@ -1,0 +1,67 @@
+.searchContainer {
+	width: 1000px;
+	margin: auto;
+    padding: 10px;
+}
+
+.eventListContainer {
+	width: 1000px;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	height: 70vh;
+	overflow-y: scroll;
+	padding: 10px;
+
+	.eventListItem {
+		min-height: 100px;
+		margin-bottom: 10px;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		img {
+			width: 140px;
+			height: 70px;
+			object-fit: cover;
+		}
+		h3 {
+			margin-left: 15px;
+			width: 200px;
+		}
+		border-bottom: 1px solid rgb(182, 182, 182);
+		.dateWrapper {
+			p {
+				font-weight: 550;
+				font-size: 110%;
+			}
+			margin-left: 10px;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-around;
+			width: 150px;
+		}
+		.iconContainer {
+			width: 200px;
+			margin-left: auto;
+			margin-right: 50px;
+			display: flex;
+			justify-content: space-around;
+			.delete {
+				color: rgb(207, 0, 0);
+				font-size: 170%;
+			}
+			.edit {
+				font-size: 170%;
+			}
+		}
+	}
+}
+
+.titleContainer {
+	padding-top: 50px;
+	padding-bottom: 30px;
+	width: 50%;
+	margin: auto;
+	display: flex;
+	justify-content: center;
+}

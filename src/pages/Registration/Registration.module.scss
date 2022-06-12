@@ -1,0 +1,19 @@
+.login_container {
+	width: max(30%, 250px);
+	margin: auto;
+    button {
+        width: 100%;
+    }
+    h1 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+}
+
+.flex_container {
+	width: 100vw;
+	height: 95vh;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}

@@ -1,0 +1,28 @@
+.formContainer {
+	width: 60%;
+	margin: auto;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	form {
+		width: 100%;
+	}
+	h1 {
+		margin-bottom: 20px;
+	}
+}
+
+.id {
+	display: none;
+}
+
+.flexRow {
+	height: 100vh;
+
+	display: flex;
+
+	ul {
+		height: 100%;
+	}
+}

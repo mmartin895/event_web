@@ -1,0 +1,19 @@
+.imageContainer {
+	width: 100%;
+	height: 400px;
+	padding: 0 15%;
+    overflow: hidden;
+
+    background-color: rgb(128, 128, 128);
+	img {
+        display: block;
+		width: 100%;
+        height: auto;
+        overflow: hidden;
+	}
+	margin: auto;
+}
+.eventDescriptionContainer{
+    width: 80%;
+    margin: auto;
+}

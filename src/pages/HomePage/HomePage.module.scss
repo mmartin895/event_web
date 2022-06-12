@@ -1,0 +1,61 @@
+// .cardCointainer {
+// 	word-wrap: break-word;
+// 	width: 70%;
+// 	display: flex;
+// 	padding-bottom: 200px;
+// 	margin: 10% auto;
+// 	justify-content: space-between;
+// 	flex-wrap: wrap;
+
+//     .card {
+// 		width: 25%;
+// 		height: 450px;
+// 		margin-bottom: 50px;
+// 	}
+// }
+
+.latestContainer {
+	width: 80%;
+	margin: 2% auto;
+	.search {
+		margin: auto;
+		width: 50%;
+	}
+}
+
+.cardCointainer {
+	word-wrap: break-word;
+	width: 100%;
+	display: flex;
+	padding-bottom: 200px;
+	margin: 1% auto;
+	flex-wrap: wrap;
+	gap: 3%;
+	justify-content: center;
+	// align-content: center;
+	// justify-content: center;
+
+	.card {
+		width: 250px;
+		height: 400px;
+		margin-bottom: 50px;
+		h2 {
+			font-family: Neue Plak, -apple-system, BlinkMacSystemFont, Roboto,
+				Helvetica Neue, Helvetica, Tahoma, Arial, sans-serif;
+			font-weight: bold;
+		}
+		.date {
+			color: orange;
+			font-weight: bold;
+			font-size: 101%;
+		}
+	}
+}
+
+@media screen and (orientation:portrait) {
+	.latestContainer {
+		.search {
+			width: 70%;
+		}
+	}	
+}
