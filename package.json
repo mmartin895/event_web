@@ -19,11 +19,11 @@
 	},
 	"scripts": {
 		"start": "serve -s build",
-		"dev": "react-scripts start",
+		"dev": "set PORT=3010 && react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
 		"eject": "react-scripts eject",
-		"start_dev": "set PORT=3010 && react-scripts start",
+		"runDev": "set PORT=3010 && react-scripts start",
 		"heroku-postbuild": "npm run build"
 	},
 	"eslintConfig": {
