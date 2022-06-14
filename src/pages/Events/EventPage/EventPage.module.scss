@@ -1,19 +1,62 @@
 .imageContainer {
 	width: 100%;
-	height: 400px;
-	padding: 0 15%;
-    overflow: hidden;
-
-    background-color: rgb(128, 128, 128);
+	height: 50vh;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	background-image: url("./../../../assets/large.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-color: rgb(128, 128, 128);
 	img {
-        display: block;
-		width: 100%;
-        height: auto;
-        overflow: hidden;
+		height: 100%;
+		width: auto;
+		// width: 100%;
+		object-fit: cover;
+		overflow: hidden;
 	}
 	margin: auto;
+	margin-bottom: 15px;
 }
-.eventDescriptionContainer{
-    width: 80%;
-    margin: auto;
+.eventDescriptionContainer {
+	width: 70%;
+	padding: 15px;
+    p{
+        max-height: 300px;
+        overflow-y: scroll;
+    }
+}
+.flexContainer {
+	display: flex;
+	width: 80%;
+	margin: auto;
+    align-items: flex-start;
+    padding-bottom: 100px;
+}
+.ticketContainer {
+	width: 30%;
+	overflow-wrap: break-word;
+	word-break: break-all;
+	h2 {
+		border-top: 1px solid darkgray;
+		text-align: center;
+	}
+}
+
+@media (orientation: portrait) {
+	.imageContainer {
+		width: 100%;
+		height: 35vh;
+	}
+	.flexContainer {
+		flex-direction: column;
+
+		.ticketContainer {
+			width: 90%;
+		}
+
+		.eventDescriptionContainer {
+			width: 90%;
+		}
+	}
 }

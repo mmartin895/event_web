@@ -1,5 +1,11 @@
 import axios from "axios";
-const backend = "http://localhost:5000";
+// const backend = "http://localhost:5000";
+// const backend = "http://192.168.0.25:5000";
+// const dev_api = process.env.REACT_APP_DEV_API;
+// const backend = process.env.REACT_APP_DEV_API;
+const backend = process.env.REACT_APP_PROD_API;
+
+
 
 export const addEvent = async (event, token = "") => {
 	console.log(event);
@@ -68,7 +74,7 @@ export const getAllEvents = async () => {
 	};
 
 	const res = await axios.get(URL, config);
-	console.log(res.data);
+	// console.log(res.data);
 	return res.data;
 };
 export const getEvent = async (eventId) => {

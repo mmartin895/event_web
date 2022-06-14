@@ -17,6 +17,9 @@ import Registration from "./pages/Registration/Registration";
 import AuthContext from "./store/auth-context2";
 import EventNotification from "./pages/Events/EventNotification/EventNotification";
 import AdminEventOverview from "./pages/Events/AdminEventOverview/AdminEventOverview";
+import { register } from "./service-worker-registration";
+
+register();
 
 function App() {
 	const authCtx = useContext(AuthContext);

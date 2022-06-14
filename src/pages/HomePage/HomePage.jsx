@@ -52,7 +52,6 @@ const fomatDate = (d) => {
 };
 
 function HomePage(props) {
-	
 	const [eventsState, setEventsState] = useState([]);
 	const navigate = useNavigate();
 	const [isPortait, setIsPortait] = useState(
@@ -65,7 +64,6 @@ function HomePage(props) {
 	};
 
 	useEffect(() => {
-		console.log(" ide use effect");
 		getAllEvents().then((data) => {
 			setEventsState(data.events);
 			// console.log(data.events[data.events.length - 1].thumbnail);
@@ -83,7 +81,11 @@ function HomePage(props) {
 
 			<div className={classes.latestContainer}>
 				<div className={classes.search}>
-					<Search placeholder="Search events" size="large" onSearch={onSearch} />
+					<Search
+						placeholder="Search events"
+						size="large"
+						onSearch={onSearch}
+					/>
 				</div>
 
 				<h1>Latest events</h1>
@@ -96,6 +98,7 @@ function HomePage(props) {
 									console.log(element._id);
 									navigate(`/events/${element._id}`);
 								}}
+								key={element._id}
 								className={classes.card}
 								hoverable
 								cover={

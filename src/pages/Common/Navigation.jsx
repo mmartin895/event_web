@@ -77,8 +77,8 @@ const Navigation = () => {
 
 	const firstItem = authCtx.isLoggedIn
 		? [
-				getItem(logOutButton, "sub1", <LogoutOutlined />),
-				getItem(authCtx.userid, "sub9", <UserOutlined />, editFiels),
+				getItem(logOutButton, "sub17", <LogoutOutlined />),
+				getItem(authCtx.userid, "sub18", <UserOutlined />, editFiels),
 		  ]
 		: [
 				getItem(<Link to="/login">Log in</Link>, "sub11", <LoginOutlined />),

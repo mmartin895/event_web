@@ -6,6 +6,7 @@ import classes from "./Login.module.scss";
 import { loginUser } from "../../services/AuthSevices";
 import AuthContext from "../../store/auth-context2";
 import { useNavigate } from "react-router-dom";
+import { subscribeUser } from "./../../service-worker-subscription";
 
 function Login(props) {
 	const [responseError, setResponseError] = useState(null);
@@ -20,13 +21,16 @@ function Login(props) {
 
 	const onFinish = async (values) => {
 		try {
+
 			const data = await loginUser(values);
 			authCtx.login(data.token, data.user.email, data.user.userRole);
 			console.log(data);
-			setTimeout(() => {
-				navigate("/home");
-			}, 250);
+
+			// const ps = await subscribeUser();
+			// console.log(ps);
+			navigate("/home");
 		} catch (err) {
+			console.log(err);
 			updateError(err.response.data.error);
 		}
 	};
