@@ -42,7 +42,7 @@ function EventEditMenu(props) {
 		getItem(
 			<Link to="/home">
 				<h1 style={{ color: "white" }} onClick>
-					Eventup
+					EventUpp
 				</h1>
 			</Link>,
 

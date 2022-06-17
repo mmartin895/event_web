@@ -48,7 +48,7 @@ function Registration(props) {
 	return (
 		<div className={classes.flex_container}>
 			<div className={classes.login_container}>
-				<h1>FiestApp</h1>
+				<h1>EventUpp</h1>
 				<Form
 					name="normal_login"
 					className="login-form"

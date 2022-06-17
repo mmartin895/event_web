@@ -120,10 +120,10 @@ self.addEventListener("push", (event) => {
 	}
 	// const body = `${data.eventTitle} has ${NotificationTypes[data.type]}`;
 	const options = {
-		// body,
-		// icon: "/calendar-64.png",
+		body: data.notification,
+		icon: "/speaker.png",
 		vibrate: [100, 50, 100],
-		actions: [{ action: "check", title: "Check changes" }],
+		// actions: [{ action: "check", title: "Check changes" }],
 	};
 	event.waitUntil(
 		self.registration.showNotification(data.title, { body: data.notification })
