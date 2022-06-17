@@ -62,7 +62,7 @@ function Registration(props) {
 						rules={[
 							{
 								required: true,
-								message: "Please input your Email!",
+								message: "Please input your name!",
 							},
 						]}
 					>
@@ -76,7 +76,7 @@ function Registration(props) {
 						rules={[
 							{
 								required: true,
-								message: "Please input your Email!",
+								message: "Please input your last name!",
 							},
 						]}
 					>

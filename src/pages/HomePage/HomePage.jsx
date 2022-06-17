@@ -65,7 +65,7 @@ function HomePage(props) {
 
 	useEffect(() => {
 		getAllEvents().then((data) => {
-			setEventsState(data.events.reverse().slice(0, 8));
+			setEventsState(data.events.reverse().slice(0, 10));
 			// console.log(data.events[data.events.length - 1].thumbnail);
 		});
 	}, []);

@@ -22,7 +22,7 @@
 .eventDescriptionContainer {
 	width: 70%;
 	padding: 15px;
-	p {
+	p.descriptionParagraph {
 		max-height: 300px;
 		overflow-y: scroll;
 		word-break: break-word;
@@ -40,12 +40,16 @@
 	width: 30%;
 	overflow-wrap: break-word;
 	word-break: break-all;
+	align-self: center;
 	h2 {
 		border-top: 1px solid darkgray;
 		text-align: center;
 	}
 }
 
+.date {
+	margin-right: 5px;
+}
 .portaitButton {
 	width: 100%;
 	display: flex;
@@ -79,16 +83,13 @@
 	}
 }
 
-
 .creditFormContainer {
 	width: 100%;
 	margin-top: 15px;
 	input {
 		width: 100%;
 	}
-	button{
+	button {
 		width: 100%;
 	}
 }
-
-

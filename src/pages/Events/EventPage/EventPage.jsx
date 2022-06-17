@@ -10,6 +10,13 @@ import valid from "card-validator";
 import default_image from "../../../assets/large.jpg";
 import classes from "./EventPage.module.scss";
 import {
+	EditOutlined,
+	EllipsisOutlined,
+	SettingOutlined,
+	PushpinOutlined,
+	ClockCircleOutlined,
+} from "@ant-design/icons";
+import {
 	Button,
 	Cascader,
 	DatePicker,
@@ -27,6 +34,40 @@ import Cards from "react-credit-cards";
 import "react-credit-cards/lib/styles.scss";
 import AuthContext from "../../../store/auth-context2";
 import CardState from "./CardState";
+import Navigation from "../../Common/Navigation";
+
+const fomatDate2 = (d) => {
+	const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+	const months = {
+		1: "Jan",
+		2: "Feb",
+		3: "Mar",
+		4: "Apr",
+		5: "May",
+		6: "Jun",
+		7: "Jul",
+		8: "Aug",
+		9: "Sep",
+		10: "Oct",
+		11: "Nov",
+		12: "Dec",
+	};
+
+	var datestring =
+		" " +
+		days[d.getDay()] +
+		", " +
+		months[d.getMonth() + 1] +
+		" " +
+		d.getDate() +
+		", " +
+		// d.getFullYear() +
+		// " " +
+		(d.getHours() >= 10 ? d.getHours() : "0" + d.getHours()) +
+		":" +
+		(d.getMinutes() >= 10 ? d.getMinutes() : "0" + d.getMinutes());
+	return datestring;
+};
 
 function formatDate(date) {
 	function padTo2Digits(num) {
@@ -122,7 +163,7 @@ function EventPage(props) {
 			disabled={calculateAmount() <= 0}
 			onClick={showModal}
 		>
-			Purchase
+			{calculateAmount() <= 0 ? "Select tickets" : "Buy tickets"}
 		</Button>
 	) : (
 		<Button
@@ -161,6 +202,7 @@ function EventPage(props) {
 
 	return (
 		<div>
+			<Navigation></Navigation>
 			<div className={classes.imageContainer}>
 				<img src={eventState.img ? eventState.img : default_image}></img>
 			</div>
@@ -168,11 +210,27 @@ function EventPage(props) {
 				<div className={classes.eventDescriptionContainer}>
 					<h2>{eventState.name}</h2>
 					<h3>
+						<PushpinOutlined  className={classes.date}/>
 						{eventState.location +
 							", " +
 							formatDate(new Date(eventState.startTime))}
 					</h3>
-					<p>{eventState.description}</p>
+					<p>
+						<ClockCircleOutlined className={classes.date} />
+						{"Start time: "}
+						<span className={classes.date}>
+							{fomatDate2(new Date(eventState.startTime))}
+						</span>
+					</p>
+					<p>
+						<ClockCircleOutlined className={classes.date} />
+						{"End time: "}
+						<span className={classes.date}>
+							{fomatDate2(new Date(eventState.endTime))}
+						</span>
+					</p>
+
+					<p className={classes.descriptionParagraph}>{eventState.description}</p>
 				</div>
 				<div className={classes.ticketContainer}>
 					<Form {...layout}>
