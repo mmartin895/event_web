@@ -3,7 +3,10 @@ import { LockOutlined, UserOutlined, InboxOutlined } from "@ant-design/icons";
 import { Alert, Button, Form, Input } from "antd";
 
 import classes from "./Login.module.scss";
-import { loginUser } from "../../services/AuthSevices";
+import {
+	loginUser,
+	subscribeUserForPushNotfications,
+} from "../../services/AuthSevices";
 import AuthContext from "../../store/auth-context2";
 import { useNavigate } from "react-router-dom";
 import { subscribeUser } from "./../../service-worker-subscription";
@@ -19,15 +22,18 @@ function Login(props) {
 		}, 2000);
 	};
 
+	const registerSubscription = async (token) => {
+		const ps = await subscribeUser();
+		subscribeUserForPushNotfications(ps, token);
+		console.log(ps);
+	};
+
 	const onFinish = async (values) => {
 		try {
-
 			const data = await loginUser(values);
 			authCtx.login(data.token, data.user.email, data.user.userRole);
 			console.log(data);
-
-			// const ps = await subscribeUser();
-			// console.log(ps);
+			registerSubscription(data.token);
 			navigate("/home");
 		} catch (err) {
 			console.log(err);

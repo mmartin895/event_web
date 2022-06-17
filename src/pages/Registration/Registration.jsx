@@ -3,21 +3,30 @@ import { LockOutlined, UserOutlined, InboxOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Alert } from "antd";
 
 import classes from "./Registration.module.scss";
-import { registerUser } from "../../services/AuthSevices";
+import {
+	registerUser,
+	subscribeUserForPushNotfications,
+} from "../../services/AuthSevices";
 import AuthContext from "../../store/auth-context2";
 import { useNavigate } from "react-router-dom";
+import { subscribeUser } from "../../service-worker-subscription";
 
 function Registration(props) {
 	const [responseError, setResponseError] = useState(null);
 	const authCtx = useContext(AuthContext);
 	const navigate = useNavigate();
 
-
 	const updateError = (message) => {
 		setResponseError(message);
 		setTimeout(() => {
 			setResponseError(null);
 		}, 2000);
+	};
+
+	const registerSubscription = async (token) => {
+		const ps = await subscribeUser();
+		subscribeUserForPushNotfications(ps, token);
+		console.log(ps);
 	};
 
 	const onFinish = async (values) => {
@@ -28,9 +37,8 @@ function Registration(props) {
 				const data = await registerUser(values);
 				authCtx.login(data.token, data.user.email, data.user.userRole);
 				console.log(data);
-				setTimeout(() => {
-					navigate("/home");
-				}, 250);
+				registerSubscription(data.token);
+				navigate("/home");
 			} catch (err) {
 				updateError(err.response.data.error);
 			}

@@ -23,6 +23,10 @@ import {
 	PushpinOutlined,
 	ClockCircleOutlined,
 } from "@ant-design/icons";
+import { MapContainer } from "react-leaflet/MapContainer";
+import { TileLayer } from "react-leaflet/TileLayer";
+import { Marker } from "react-leaflet/Marker";
+import { Popup } from "react-leaflet/Popup";
 
 import classes from "./EventSerachPage.module.scss";
 import {
@@ -39,21 +43,25 @@ const { Meta } = Card;
 const { Search } = Input;
 const { RangePicker } = DatePicker;
 
+const center = {
+	lat: 45.815399,
+	lng: 15.966568,
+};
 const fomatDate = (d) => {
 	const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 	const months = {
-		0: "Jan",
-		1: "Feb",
-		2: "Mar",
-		3: "Apr",
-		4: "May",
-		5: "Jun",
-		6: "Jul",
-		7: "Aug",
-		8: "Sep",
-		9: "Oct",
-		10: "Nov",
-		11: "Dec",
+		1: "Jan",
+		2: "Feb",
+		3: "Mar",
+		4: "Apr",
+		5: "May",
+		6: "Jun",
+		7: "Jul",
+		8: "Aug",
+		9: "Sep",
+		10: "Oct",
+		11: "Nov",
+		12: "Dec",
 	};
 
 	var datestring =
@@ -66,9 +74,9 @@ const fomatDate = (d) => {
 		", " +
 		// d.getFullYear() +
 		// " " +
-		d.getHours() +
+		(d.getHours() >= 10 ? d.getHours() : "0" + d.getHours()) +
 		":" +
-		d.getMinutes();
+		(d.getMinutes() >= 10 ? d.getMinutes() : "0" + d.getMinutes());
 	return datestring;
 };
 
@@ -228,7 +236,51 @@ function EventSerachPage(props) {
 						);
 					})}
 				</div>
-				<div className={classes.mapCointainer}>mapa</div>
+				<div className={classes.mapCointainer}>
+					<MapContainer
+						center={center}
+						zoom={12}
+						scrollWheelZoom={false}
+						style={{ height: "100%", width: "100%" }}
+					>
+						<TileLayer
+							attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+							url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+						/>
+
+						{eventsState
+							.filter((event) => {
+								return event.latlong ? true : false;
+							})
+							.map((event) => {
+								return (
+									<Marker key={event._id} position={event.latlong}>
+										<Popup minWidth={90}>
+											<div className={classes.popupDiv}>
+												<img
+													onClick={() => {
+														navigate(`/events/${event._id}`);
+													}}
+													alt="example"
+													className={classes.cardImageMap}
+													src={event.thumbnail ?? default_image}
+												/>
+												<div>
+													<h3 className={classes.title}>{event.name}</h3>
+													<p>
+														<ClockCircleOutlined />
+														<span className={classes.date2}>
+															{fomatDate(new Date(event.startTime))}
+														</span>
+													</p>
+												</div>
+											</div>
+										</Popup>
+									</Marker>
+								);
+							})}
+					</MapContainer>
+				</div>
 			</div>
 		</>
 	);

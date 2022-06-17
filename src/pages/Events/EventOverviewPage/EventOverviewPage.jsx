@@ -5,8 +5,10 @@ import classes from "./EventOverviewPage.module.scss";
 import default_image from "../../../assets/default_image.png";
 import { DeleteFilled, LinkOutlined, EditOutlined } from "@ant-design/icons";
 import { Navigate, useNavigate } from "react-router-dom";
-import { Card, Avatar, Input, message } from "antd";
+import { Card, Avatar, Input, message, Button } from "antd";
 import Navigation from "../../Common/Navigation";
+import CalendarOverview from "./CalendarOverview/CalendarOverview";
+import moment from "moment";
 
 const { Search } = Input;
 
@@ -60,6 +62,7 @@ function EventOverviewPage(props) {
 
 	const [personalEvents, setPersonalEvents] = useState([]);
 	const [filteredEvents, setFilteredEvents] = useState([]);
+	const [isList, setIsList] = useState(true);
 
 	const filterItems = (value, event) => {
 		const filteredEvents = personalEvents.filter(({ name }) => {
@@ -106,50 +109,77 @@ function EventOverviewPage(props) {
 					onSearch={filterItems}
 					style={{ width: "40%" }}
 				/>
+				<div>
+					<Button
+						className={classes.button}
+						onClick={() => {
+							setIsList(true);
+						}}
+					>
+						List
+					</Button>
+					<Button
+						className={classes.button}
+						onClick={() => {
+							setIsList(false);
+						}}
+					>
+						Calendar
+					</Button>
+				</div>
 			</div>
-			<div className={classes.eventListContainer}>
-				{filteredEvents.map((event) => {
-					return (
-						<div className={classes.eventListItem} key={event._id}>
-							<img src={event.thumbnail ?? default_image}></img>
-							<h3>{event.name}</h3>
-							<div className={classes.dateWrapper}>
-								<p>{formatDate(new Date(event.startTime))}</p>
-								<span>{fomatDateToDayTime(new Date(event.startTime))}</span>
+			{isList && (
+				<div className={classes.eventListContainer}>
+					{filteredEvents.map((event) => {
+						return (
+							<div className={classes.eventListItem} key={event._id}>
+								<img src={event.thumbnail ?? default_image}></img>
+								<h3>{event.name}</h3>
+								<div className={classes.dateWrapper}>
+									<p>{formatDate(new Date(event.startTime))}</p>
+									<span>{fomatDateToDayTime(new Date(event.startTime))}</span>
+								</div>
+								<div className={classes.iconContainer}>
+									<button
+										onClick={() => {
+											console.log("edit ", event._id);
+											navigate(`/myevents/${event._id}/general`);
+										}}
+									>
+										<EditOutlined className={classes.edit} />
+									</button>
+									<button
+										onClick={() => {
+											console.log("Organizator je ", event.organizer);
+											eventDelete(authCtx.token, {
+												_id: event._id,
+												organizer: event.organizer,
+											});
+										}}
+									>
+										<DeleteFilled className={classes.delete} />
+									</button>
+									<button
+										onClick={() => {
+											navigate(`/events/${event._id}`);
+										}}
+									>
+										<LinkOutlined className={classes.edit} />
+									</button>
+								</div>
 							</div>
-							<div className={classes.iconContainer}>
-								<button
-									onClick={() => {
-										console.log("edit ", event._id);
-										navigate(`/myevents/${event._id}/general`);
-									}}
-								>
-									<EditOutlined className={classes.edit} />
-								</button>
-								<button
-									onClick={() => {
-										console.log("Organizator je ", event.organizer);
-										eventDelete(authCtx.token, {
-											_id: event._id,
-											organizer: event.organizer,
-										});
-									}}
-								>
-									<DeleteFilled className={classes.delete} />
-								</button>
-								<button
-									onClick={() => {
-										navigate(`/events/${event._id}`);
-									}}
-								>
-									<LinkOutlined className={classes.edit} />
-								</button>
-							</div>
-						</div>
-					);
-				})}
-			</div>
-			<div className={classes.calendarListContainer}></div>
+						);
+					})}
+				</div>
+			)}
+			{!isList && (
+				<div className={classes.calendarListContainer}>
+					<CalendarOverview
+						searchedEvents={filteredEvents}
+						defaultValue={ moment()}
+					></CalendarOverview>
+				</div>
+			)}
 		</>
 	);
 }

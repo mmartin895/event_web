@@ -1,19 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-	Form,
-	Input,
-	Button,
-	message,
-} from "antd";
+import { Form, Input, Button, message } from "antd";
 
 import classes from "./EventNotification.module.scss";
 import EventEditMenu from "../EventEdit/EventEditMenu/EventEditMenu";
 
-import {
-	getEvent,
-} from "../../../services/EventService";
+import { getEvent } from "../../../services/EventService";
 import AuthContext from "../../../store/auth-context2";
 import { useParams } from "react-router-dom";
+import { notifiyEventAttendees } from "../../../services/EventService";
 
 const validateMessages = {
 	required: "${label} is required!",
@@ -25,7 +19,6 @@ const validateMessages = {
 		range: "${label} must be between ${min} and ${max}",
 	},
 };
-
 
 const EventNotification = () => {
 	const authCtx = useContext(AuthContext);
@@ -48,15 +41,15 @@ const EventNotification = () => {
 		getTicketsInfo(eventId);
 	}, []);
 
-	const onFinishWithPoster = async (values) => {
+	const notifyAttendes = async (values) => {
 		const event = values.event;
 
-		console.log("Ovo su vrijednosti \n", values);
+		console.log("Message to notify \n", values);
 
 		try {
-			// const data = await updateEventGeneralInfo(values, authCtx.token);
-			// console.log(data);
-			// message.success(data);
+			const data = await notifiyEventAttendees(event, authCtx.token);
+			console.log(data);
+			message.success(data);
 		} catch (err) {
 			message.error(err.response.status + " " + err.response.data);
 			console.log(err);
@@ -88,7 +81,7 @@ const EventNotification = () => {
 						setFieldsValue={eventState}
 						{...layout}
 						name="nest-messages"
-						onFinish={onFinishWithPoster}
+						onFinish={notifyAttendes}
 						validateMessages={validateMessages}
 					>
 						<Form.Item
@@ -103,11 +96,29 @@ const EventNotification = () => {
 						>
 							<Input disabled />
 						</Form.Item>
-						<Form.Item name={["event", "notification"]} label="Enter notification">
+						<Form.Item
+							name={["event", "title"]}
+							label="Title:"
+							rules={[
+								{
+									required: true,
+								},
+							]}
+						>
+							<Input type="text" />
+						</Form.Item>
+						<Form.Item
+							name={["event", "notification"]}
+							label="Enter notification"
+							rules={[
+								{
+									required: true,
+								},
+							]}
+						>
 							<Input.TextArea
 								style={{
 									height: 150,
-									
 								}}
 							/>
 						</Form.Item>

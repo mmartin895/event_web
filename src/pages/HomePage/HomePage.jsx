@@ -21,18 +21,18 @@ const { Search } = Input;
 const fomatDate = (d) => {
 	const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 	const months = {
-		0: "Jan",
-		1: "Feb",
-		2: "Mar",
-		3: "Apr",
-		4: "May",
-		5: "Jun",
-		6: "Jul",
-		7: "Aug",
-		8: "Sep",
-		9: "Oct",
-		10: "Nov",
-		11: "Dec",
+		1: "Jan",
+		2: "Feb",
+		3: "Mar",
+		4: "Apr",
+		5: "May",
+		6: "Jun",
+		7: "Jul",
+		8: "Aug",
+		9: "Sep",
+		10: "Oct",
+		11: "Nov",
+		12: "Dec",
 	};
 
 	var datestring =
@@ -45,9 +45,9 @@ const fomatDate = (d) => {
 		", " +
 		// d.getFullYear() +
 		// " " +
-		d.getHours() +
+		(d.getHours() >= 10 ? d.getHours() : "0" + d.getHours()) +
 		":" +
-		d.getMinutes();
+		(d.getMinutes() >= 10 ? d.getMinutes() : "0" + d.getMinutes());
 	return datestring;
 };
 
@@ -65,7 +65,7 @@ function HomePage(props) {
 
 	useEffect(() => {
 		getAllEvents().then((data) => {
-			setEventsState(data.events);
+			setEventsState(data.events.reverse().slice(0, 8));
 			// console.log(data.events[data.events.length - 1].thumbnail);
 		});
 	}, []);

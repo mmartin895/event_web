@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import {
 	Form,
 	Input,
@@ -9,7 +9,6 @@ import {
 	Upload,
 	AutoComplete,
 	Space,
-	InputNumber,
 } from "antd";
 import {
 	UploadOutlined,
@@ -23,6 +22,7 @@ import classes from "./EventCreatePage.module.scss";
 import { addEvent, addEventWithPoster } from "../../../services/EventService";
 import Navigation from "../../Common/Navigation";
 import AuthContext from "../../../store/auth-context2";
+import EventCreateMap from "./EventCreateMap/EventCreateMap";
 
 /* eslint-disable no-template-curly-in-string */
 
@@ -64,6 +64,10 @@ const EventCreatePage = () => {
 
 	const onFinishWithPoster = async (values) => {
 		const event = values.event;
+		if (new Date(values.event.startTime) > new Date(values.event.endTime)) {
+			message.error("Event must start before it ends!");
+			return;
+		}
 		if (!values.ticketList?.length) {
 			message.error("Add at least one ticket type");
 			return;
@@ -76,6 +80,8 @@ const EventCreatePage = () => {
 		}
 
 		formData.append("ticketList", JSON.stringify(values.ticketList));
+		formData.append("latlong", JSON.stringify(eventLocation));
+
 
 		try {
 			const createdEvent = await addEventWithPoster(formData, authCtx.token);
@@ -97,6 +103,7 @@ const EventCreatePage = () => {
 		{ value: "Varaždin" },
 		{ value: "Split" },
 	]);
+
 
 	const [image, setImage] = useState([]);
 
@@ -131,6 +138,10 @@ const EventCreatePage = () => {
 	};
 	const [loading, setLoading] = useState(false);
 	const [imageUrl, setImageUrl] = useState();
+	const [eventLocation, setEventLocation] = useState({
+		lat: 45.815399,
+		lng: 15.966568,
+	});
 
 	const handleChange = (info) => {
 		console.log(info.event);
@@ -256,9 +267,12 @@ const EventCreatePage = () => {
 							onSelect={onSelect}
 							onSearch={onSearch}
 							onChange={onChange}
-							placeholder="control mode"
 						/>
-						{/* <Input /> */}
+					</Form.Item>
+					<Form.Item name={["event", "geolocation"]} label="Geolocation">
+						<EventCreateMap
+							setEventLocation={setEventLocation}
+						></EventCreateMap>
 					</Form.Item>
 					<Form.Item name={["event", "description"]} label="Description">
 						<Input.TextArea
@@ -267,6 +281,7 @@ const EventCreatePage = () => {
 							}}
 						/>
 					</Form.Item>
+
 					<Form.Item
 						name={["event", "startTime"]}
 						label="Start time"

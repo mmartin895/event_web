@@ -111,10 +111,12 @@ self.addEventListener("message", (event) => {
 
 // on receiving of push message, raise notification
 self.addEventListener("push", (event) => {
-    console.log("PIKI je OOOOO");
+	console.log("PIKI je OOOOO");
 	let data = {};
 	if (event.data) {
 		data = event.data.json();
+		console.log(data);
+		console.log("radis li");
 	}
 	// const body = `${data.eventTitle} has ${NotificationTypes[data.type]}`;
 	const options = {
@@ -124,14 +126,13 @@ self.addEventListener("push", (event) => {
 		actions: [{ action: "check", title: "Check changes" }],
 	};
 	event.waitUntil(
-		self.registration.showNotification("New Schedule Changes!", options)
+		self.registration.showNotification(data.title, { body: data.notification })
 	);
 	// const swListener = new BroadcastChannel("swListener");
 	// swListener.postMessage(event.data.text());
 });
 
-self.addEventListener('message', () => console.log('poruka'))
-
+self.addEventListener("message", () => console.log("poruka"));
 
 self.addEventListener("notificationclick", (event) => {
 	if (event.action === "check") {

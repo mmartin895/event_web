@@ -66,21 +66,16 @@ const EventEditGeneral = () => {
 		getTicketsInfo(eventId);
 	}, []);
 
-	const onFinish = async (values) => {
-		console.log(values);
-		try {
-			const createdEvent = await addEvent(values);
-			console.log(createdEvent);
-		} catch (err) {
-			console.log(err);
-			console.log(err.message);
-		}
-	};
 
 	const onFinishWithPoster = async (values) => {
 		const event = values.event;
 
 		console.log("Ovo su vrijednosti \n", values);
+
+		if (new Date(values.event.startTime) > new Date(values.event.endTime)) {
+			message.error("Event must start before it ends!");
+			return;
+		}
 
 		try {
 			const data = await updateEventGeneralInfo(values, authCtx.token);

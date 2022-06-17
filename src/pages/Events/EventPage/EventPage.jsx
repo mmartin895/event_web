@@ -1,7 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { getEvent } from "../../../services/EventService";
-
+import {
+	calculateFee,
+	selectedTicketsToArrray,
+	buyTickets,
+} from "../../../services/TicketService";
+import valid from "card-validator";
 import default_image from "../../../assets/large.jpg";
 import classes from "./EventPage.module.scss";
 import {
@@ -11,26 +16,17 @@ import {
 	Form,
 	Input,
 	InputNumber,
+	message,
+	Modal,
 	Radio,
 	Select,
 	Switch,
 	TreeSelect,
 } from "antd";
-
-const fomatDateToDayTime = (d) => {
-	const date = new Date(d);
-	const days = [
-		"Sunday",
-		"Monday",
-		"Tuesday",
-		"Wednesday",
-		"Thursday",
-		"Friday",
-		"Saturday",
-	];
-	const day = days[date.getDay()];
-	return day + ", " + date.getHours() + ":" + date.getMinutes() + " h";
-};
+import Cards from "react-credit-cards";
+import "react-credit-cards/lib/styles.scss";
+import AuthContext from "../../../store/auth-context2";
+import CardState from "./CardState";
 
 function formatDate(date) {
 	function padTo2Digits(num) {
@@ -44,10 +40,39 @@ function formatDate(date) {
 }
 
 function EventPage(props) {
+	const authCtx = useContext(AuthContext);
+	const { id } = useParams();
+
+	const purchaseTickets = async (values) => {
+		const tickets = selectedTicketsToArrray(selectedTickets, id);
+
+		if (tickets.length <= 0) {
+			message.error("Select tickets to purchase");
+		}
+		const payload = { creditDetails: values, selectedTickets, tickets };
+
+		try {
+			const data = await buyTickets(payload, authCtx.token);
+			message.success(data);
+		} catch (err) {
+			console.log(err);
+			if (err.response?.data) {
+				message.error(err.response.data);
+			} else {
+				message.error(err.message);
+			}
+
+			if (err.response.status == 403 || err.response.status == 401) {
+				authCtx.logout();
+			}
+		}
+	};
+
 	const layout = {
 		labelCol: { span: 12 },
 		wrapperCol: { span: 8 },
 	};
+
 	const transformTickets = (tickets) => {
 		const selectedTickets = {};
 
@@ -60,22 +85,58 @@ function EventPage(props) {
 		return selectedTickets;
 	};
 
-	const calculateFee = (selectedTickets) => {
-		var price = 0;
-		for (const ticketKey in selectedTickets) {
-			let ticket = selectedTickets[ticketKey];
-			price += ticket.ticketPrice * ticket.quantity;
-		}
-		return price;
-	};
-
-	const { id } = useParams();
 	const [eventState, setEventState] = useState({ tickets: [] });
 	const [selectedTickets, setSelectedTickets] = useState({});
+	const navigate = useNavigate();
+
+	const [isModalVisible, setIsModalVisible] = useState(false);
+
+	const { cardState, handleInputChange } = CardState();
+
+	const calculateAmount = () => {
+		var amount = 0;
+		for (const ticketKey in selectedTickets) {
+			let ticket = selectedTickets[ticketKey];
+			amount += ticket.quantity;
+			if (ticket.quantity < 0) return 0;
+		}
+		return amount;
+	};
+
+	const showModal = () => {
+		setIsModalVisible(true);
+	};
+
+	const handleOk = () => {
+		setIsModalVisible(false);
+	};
+
+	const handleCancel = () => {
+		setIsModalVisible(false);
+	};
+
+	const formButtom = authCtx.isLoggedIn ? (
+		<Button
+			type="primary"
+			htmlType="submit"
+			disabled={calculateAmount() <= 0}
+			onClick={showModal}
+		>
+			Purchase
+		</Button>
+	) : (
+		<Button
+			type="primary"
+			onClick={() => {
+				navigate("/login");
+			}}
+		>
+			Log in
+		</Button>
+	);
 
 	useEffect(() => {
 		getEvent(id).then((event) => {
-			console.log(Object.keys(event));
 			setEventState(event);
 			setSelectedTickets(transformTickets(event.tickets));
 		});
@@ -98,9 +159,6 @@ function EventPage(props) {
 		};
 	};
 
-	const calcTotal = () => {
-		return 5 + "$";
-	};
 	return (
 		<div>
 			<div className={classes.imageContainer}>
@@ -138,15 +196,94 @@ function EventPage(props) {
 								</Form.Item>
 							);
 						})}
-						<Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 12 }}>
-							<Button type="primary" htmlType="submit">
-								Purchase
-							</Button>
+						{/* <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 5 }}>
+							{formButtom}
+						</Form.Item> */}
+						<Form.Item
+							wrapperCol={{ offset: 0 }}
+							className={classes.portaitButton}
+						>
+							{formButtom}
 						</Form.Item>
 					</Form>
 					<h2>{"Total: " + calculateFee(selectedTickets) + "$"}</h2>
 				</div>
 			</div>
+			<Modal
+				className={classes.modal}
+				title="Enter card information"
+				visible={isModalVisible}
+				onOk={handleOk}
+				onCancel={handleCancel}
+				footer={[
+					<Button key="back" onClick={handleCancel}>
+						Cancel
+					</Button>,
+					// <Button key="submit" type="primary" onClick={handleOk}>
+					// 	Submit
+					// </Button>,
+				]}
+			>
+				<Cards
+					cvc={cardState.cvc}
+					expiry={cardState.expiry}
+					focused={cardState.focus}
+					name={cardState.name}
+					number={cardState.number}
+				/>
+
+				<div className={classes.creditFormContainer}>
+					<Form
+						onValuesChange={handleInputChange}
+						name="basic"
+						initialValues={{ remember: true }}
+						onFinish={purchaseTickets}
+						// onFinishFailed={onFinishFailed}
+						autoComplete="off"
+					>
+						<Form.Item
+							name="name"
+							rules={[{ required: true, message: "Please input holder name!" }]}
+						>
+							<Input placeholder="Cardholder name" type="text" />
+						</Form.Item>
+						<Form.Item
+							name="number"
+							rules={[
+								{ required: true, message: "Please input card number!" },
+								{
+									validator: (_, value) =>
+										valid.number(value).isValid
+											? Promise.resolve("Valid card number")
+											: Promise.reject(new Error("Card number invalid!")),
+								},
+							]}
+						>
+							<Input type="number" placeholder="Card number" />
+						</Form.Item>
+
+						<Form.Item
+							name="expiry"
+							rules={[{ required: true, message: "Please input card expiry!" }]}
+						>
+							<Input placeholder="Expiration date" type={"number"} />
+						</Form.Item>
+
+						<Form.Item
+							name="cvc"
+							rules={[{ required: true, message: "Please input CVC!" }]}
+						>
+							<Input placeholder="CVC" />
+						</Form.Item>
+
+						<Form.Item>
+							<Button type="primary" htmlType="submit">
+								Purchase
+							</Button>
+						</Form.Item>
+					</Form>
+				</div>
+			</Modal>
 		</div>
 	);
 }

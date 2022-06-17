@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { unsubscribeUser } from "../service-worker-subscription";
 /*
 Dodat stvari za unsubsrajbanje usera na push notifikacije
 * */
@@ -42,7 +43,7 @@ export const AuthContextProvider = (props) => {
 		setToken(null);
 		setUserid(undefined);
 		setIsAdministrator(false);
-
+		unsubscribeUser();
 		// window.location.assign("/login");
 	};
 

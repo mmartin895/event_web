@@ -3,9 +3,7 @@ import axios from "axios";
 // const backend = "http://192.168.0.25:5000";
 // const dev_api = process.env.REACT_APP_DEV_API;
 // const backend = process.env.REACT_APP_DEV_API;
-const backend = process.env.REACT_APP_PROD_API;
-
-
+const backend = process.env.REACT_APP_API;
 
 export const addEvent = async (event, token = "") => {
 	console.log(event);
@@ -193,5 +191,20 @@ export const deleteEventTicket = async (ticketId, token) => {
 	};
 
 	const res = await axios.post(URL, { ticketId: ticketId }, config);
+	return res.data;
+};
+
+export const notifiyEventAttendees = async (payload, token) => {
+	const badToken = "sdadasd";
+
+	const URL = `${backend}/event/notify/${payload._id}`;
+	const config = {
+		headers: {
+			Authorization: `Bearer ${token}`,
+			"Content-Type": "application/json",
+		},
+	};
+
+	const res = await axios.post(URL, payload, config);
 	return res.data;
 };

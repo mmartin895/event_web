@@ -18,20 +18,23 @@
 	margin: auto;
 	margin-bottom: 15px;
 }
+
 .eventDescriptionContainer {
 	width: 70%;
 	padding: 15px;
-    p{
-        max-height: 300px;
-        overflow-y: scroll;
-    }
+	p {
+		max-height: 300px;
+		overflow-y: scroll;
+		word-break: break-word;
+	}
 }
+
 .flexContainer {
 	display: flex;
 	width: 80%;
 	margin: auto;
-    align-items: flex-start;
-    padding-bottom: 100px;
+	align-items: flex-start;
+	padding-bottom: 100px;
 }
 .ticketContainer {
 	width: 30%;
@@ -43,6 +46,13 @@
 	}
 }
 
+.portaitButton {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	text-align: center;
+}
+
 @media (orientation: portrait) {
 	.imageContainer {
 		width: 100%;
@@ -50,6 +60,7 @@
 	}
 	.flexContainer {
 		flex-direction: column;
+		align-items: center;
 
 		.ticketContainer {
 			width: 90%;
@@ -59,4 +70,25 @@
 			width: 90%;
 		}
 	}
+
+	.portaitButton {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		text-align: center;
+	}
 }
+
+
+.creditFormContainer {
+	width: 100%;
+	margin-top: 15px;
+	input {
+		width: 100%;
+	}
+	button{
+		width: 100%;
+	}
+}
+
+
