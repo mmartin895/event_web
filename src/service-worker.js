@@ -125,9 +125,7 @@ self.addEventListener("push", (event) => {
 		vibrate: [100, 50, 100],
 		// actions: [{ action: "check", title: "Check changes" }],
 	};
-	event.waitUntil(
-		self.registration.showNotification(data.title, { body: data.notification })
-	);
+	event.waitUntil(self.registration.showNotification(data.title, options));
 	// const swListener = new BroadcastChannel("swListener");
 	// swListener.postMessage(event.data.text());
 });
