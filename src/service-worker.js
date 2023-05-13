@@ -74,6 +74,21 @@ registerRoute(
 	})
 );
 
+registerRoute(
+	({ url }) => url.pathname.startsWith("/event/all"),
+	new NetworkFirst({
+		cacheName: "eventovi",
+	})
+);
+
+registerRoute(
+	({ url }) => url.pathname.startsWith("/event/"),
+	new NetworkFirst({
+		cacheName: "eventovi",
+	})
+);
+
+
 //cache all events and user events
 //REMEMBER TO CLEAR CACHE AFTER
 registerRoute(
@@ -134,7 +149,7 @@ self.addEventListener("message", () => console.log("poruka"));
 
 self.addEventListener("notificationclick", (event) => {
 	if (event.action === "check") {
-		self.clients.openWindow("/notifications");
+		self.clients.openWindow("/home");
 	}
 });
 

@@ -1,19 +1,19 @@
 {
-	"short_name": "Eventup",
-	"name": "Eventupp",
+	"short_name": "EventUpp",
+	"name": "EventUpp",
 	"icons": [
 		{
-			"src": "favicon.ico",
+			"src": "events_ikon64.png",
 			"sizes": "64x64 32x32 24x24 16x16",
 			"type": "image/x-icon"
 		},
 		{
-			"src": "logo192.png",
+			"src": "events_ikon256.png",
 			"type": "image/png",
-			"sizes": "192x192"
+			"sizes": "256x256"
 		},
 		{
-			"src": "logo512.png",
+			"src": "events_ikon.png",
 			"type": "image/png",
 			"sizes": "512x512"
 		}
