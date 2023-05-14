@@ -125,6 +125,8 @@ self.addEventListener("message", (event) => {
 
 // on receiving of push message, raise notification
 self.addEventListener("push", (event) => {
+	console.log("Push event fired!");
+
 	let data = {};
 	if (event.data) {
 		data = event.data.json();
@@ -146,9 +148,12 @@ self.addEventListener("push", (event) => {
 self.addEventListener("message", () => console.log("poruka"));
 
 self.addEventListener("notificationclick", (event) => {
+	const eventId = event.notification.data.id;
+	// event.notification.close();
+	console.log("Notificationclick event fired!", "Event id " + eventId);
+
 	if (event.action === "check") {
-		self.clients.openWindow("/events/" + event.notification.data.id);
-		event.notification.close();
+		self.clients.openWindow("/events/" + eventId);
 	}
 });
 
