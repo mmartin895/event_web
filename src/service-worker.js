@@ -88,7 +88,6 @@ registerRoute(
 	})
 );
 
-
 //cache all events and user events
 //REMEMBER TO CLEAR CACHE AFTER
 registerRoute(
@@ -126,19 +125,18 @@ self.addEventListener("message", (event) => {
 
 // on receiving of push message, raise notification
 self.addEventListener("push", (event) => {
-	console.log("PIKI je OOOOO");
 	let data = {};
 	if (event.data) {
 		data = event.data.json();
 		console.log(data);
-		console.log("radis li");
 	}
 	// const body = `${data.eventTitle} has ${NotificationTypes[data.type]}`;
 	const options = {
 		body: data.notification,
 		icon: "/speaker.png",
 		vibrate: [100, 50, 100],
-		// actions: [{ action: "check", title: "Check changes" }],
+		actions: [{ action: "check", title: "Open " }],
+		data: { id: data.id },
 	};
 	event.waitUntil(self.registration.showNotification(data.title, options));
 	// const swListener = new BroadcastChannel("swListener");
@@ -149,7 +147,7 @@ self.addEventListener("message", () => console.log("poruka"));
 
 self.addEventListener("notificationclick", (event) => {
 	if (event.action === "check") {
-		self.clients.openWindow("/home");
+		self.clients.openWindow("/events/" + event.notification.data.id);
 	}
 });
 
