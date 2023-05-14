@@ -148,6 +148,7 @@ self.addEventListener("message", () => console.log("poruka"));
 self.addEventListener("notificationclick", (event) => {
 	if (event.action === "check") {
 		self.clients.openWindow("/events/" + event.notification.data.id);
+		event.notification.close();
 	}
 });
 
