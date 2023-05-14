@@ -149,11 +149,15 @@ self.addEventListener("message", () => console.log("poruka"));
 
 self.addEventListener("notificationclick", (event) => {
 	const eventId = event.notification.data.id;
-	// event.notification.close();
+	event.notification.close();
 	console.log("Notificationclick event fired!", "Event id " + eventId);
 
 	if (event.action === "check") {
-		self.clients.openWindow("/events/" + eventId);
+		event.waitUntil(
+			self.clients
+				.openWindow("/events/" + eventId)
+				.then((windowClient) => (windowClient ? windowClient.focus() : null))
+		);
 	}
 });
 
