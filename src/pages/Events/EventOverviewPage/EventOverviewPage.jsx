@@ -104,12 +104,12 @@ function EventOverviewPage(props) {
 			</div>
 			<div className={classes.searchContainer}>
 				<Search
+					className={classes.searchInputContainer}
 					size="large"
 					placeholder="Search event name"
 					onSearch={filterItems}
-					style={{ width: "40%" }}
 				/>
-				<div>
+				<div className={classes.buttonContainer}>
 					<Button
 						className={classes.button}
 						onClick={() => {
@@ -134,11 +134,14 @@ function EventOverviewPage(props) {
 						return (
 							<div className={classes.eventListItem} key={event._id}>
 								<img src={event.thumbnail ?? default_image}></img>
-								<h3>{event.name}</h3>
-								<div className={classes.dateWrapper}>
-									<p>{formatDate(new Date(event.startTime))}</p>
-									<span>{fomatDateToDayTime(new Date(event.startTime))}</span>
+								<div className={classes.eventListItemInfo}>
+									<h3>{event.name}</h3>
+									<div className={classes.dateWrapper}>
+										<p>{formatDate(new Date(event.startTime))}</p>
+										<span>{fomatDateToDayTime(new Date(event.startTime))}</span>
+									</div>
 								</div>
+
 								<div className={classes.iconContainer}>
 									<button
 										onClick={() => {
@@ -176,7 +179,7 @@ function EventOverviewPage(props) {
 				<div className={classes.calendarListContainer}>
 					<CalendarOverview
 						searchedEvents={filteredEvents}
-						defaultValue={ moment()}
+						defaultValue={moment()}
 					></CalendarOverview>
 				</div>
 			)}

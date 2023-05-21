@@ -8,7 +8,6 @@
 // service worker, and the Workbox build step will be skipped.
 
 import { clientsClaim } from "workbox-core";
-// import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute, createHandlerBoundToURL } from "workbox-precaching";
 import { registerRoute } from "workbox-routing";
 import { CacheFirst, NetworkFirst } from "workbox-strategies";
@@ -56,23 +55,8 @@ registerRoute(
 	})
 );
 
-// cache everything starting with /api/events/
-// use network first since it might change often
-registerRoute(
-	({ url }) => url.pathname.startsWith("/api/events"),
-	new NetworkFirst({
-		cacheName: "calendar",
-	})
-);
-
 //cache all events and user events
 //REMEMBER TO CLEAR CACHE AFTER
-registerRoute(
-	({ url }) => url.pathname.startsWith("/api/Events"),
-	new NetworkFirst({
-		cacheName: "eventovi",
-	})
-);
 
 registerRoute(
 	({ url }) => url.pathname.startsWith("/event/all"),
@@ -85,24 +69,6 @@ registerRoute(
 	({ url }) => url.pathname.startsWith("/event/"),
 	new NetworkFirst({
 		cacheName: "eventovi",
-	})
-);
-
-//cache all events and user events
-//REMEMBER TO CLEAR CACHE AFTER
-registerRoute(
-	({ url }) => url.pathname.startsWith("/api/Users"),
-	new NetworkFirst({
-		cacheName: "userEvents",
-	})
-);
-
-// cache everything starting with /api/sections/
-// use network first since it might change often
-registerRoute(
-	({ url }) => url.pathname.startsWith("/api/sections/"),
-	new NetworkFirst({
-		cacheName: "sections",
 	})
 );
 
@@ -161,4 +127,3 @@ self.addEventListener("notificationclick", (event) => {
 	}
 });
 
-// Any other custom service worker logic can go here.
