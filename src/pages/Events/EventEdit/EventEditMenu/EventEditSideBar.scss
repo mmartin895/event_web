@@ -1,0 +1,58 @@
+.sideBarMenu {
+	display: flex;
+	padding: 1% 1%;
+
+	justify-content: flex-start;
+	align-items: center;
+	color: white;
+	h1 {
+		color: white;
+		// align-self: flex-start;
+		margin-bottom: 0;
+	}
+}
+
+p.sideBarParagraph {
+	display: flex;
+	align-items: center;
+	h2 {
+		margin-left: 10px;
+	}
+	span {
+		margin-bottom: 5px;
+	}
+}
+
+.eventNameHeader {
+	margin-bottom: 60px;
+}
+
+.draweFooter {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: 0 10px;
+	padding-bottom: 0px;
+	h2 {
+		padding-top: 4px;
+	}
+}
+
+.drawerHeader {
+	margin-top: 8px;
+}
+
+.sideDrawerDiv {
+	display: none;
+}
+
+@media screen and (orientation: portrait) {
+	.sideDrawerDiv {
+		display: block;
+	}
+}
+
+// .drawerStyle {
+// 	height: 101vh;
+// 	// width: min(400px, 90vw);
+// }

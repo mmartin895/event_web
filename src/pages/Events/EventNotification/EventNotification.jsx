@@ -8,6 +8,7 @@ import { getEvent } from "../../../services/EventService";
 import AuthContext from "../../../store/auth-context2";
 import { useParams } from "react-router-dom";
 import { notifiyEventAttendees } from "../../../services/EventService";
+import EventEditSideBar from "../EventEdit/EventEditMenu/EventEditSideBar";
 
 const validateMessages = {
 	required: "${label} is required!",
@@ -71,6 +72,7 @@ const EventNotification = () => {
 
 	return (
 		<>
+			<EventEditSideBar eventName={eventState.event?.name}></EventEditSideBar>
 			<div className={classes.flexRow}>
 				<EventEditMenu className={classes.menu}></EventEditMenu>
 				<div className={classes.formContainer}>

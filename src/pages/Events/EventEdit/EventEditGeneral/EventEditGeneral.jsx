@@ -9,18 +9,19 @@ import {
 	AutoComplete,
 } from "antd";
 
+
+
 import classes from "./EventEditGeneral.module.scss";
 import moment from "moment";
 import EventEditMenu from "../EventEditMenu/EventEditMenu";
 
 import {
-	addEvent,
-	addEventWithPoster,
 	getEvent,
 	updateEventGeneralInfo,
 } from "../../../../services/EventService";
 import AuthContext from "../../../../store/auth-context2";
 import { useParams } from "react-router-dom";
+import EventEditSideBar from "../EventEditMenu/EventEditSideBar";
 
 const validateMessages = {
 	required: "${label} is required!",
@@ -65,7 +66,6 @@ const EventEditGeneral = () => {
 	useEffect(() => {
 		getTicketsInfo(eventId);
 	}, []);
-
 
 	const onFinishWithPoster = async (values) => {
 		const event = values.event;
@@ -128,6 +128,8 @@ const EventEditGeneral = () => {
 
 	return (
 		<>
+			<EventEditSideBar eventName={eventState.event?.name}></EventEditSideBar>
+
 			<div className={classes.flexRow}>
 				<EventEditMenu className={classes.menu}></EventEditMenu>
 				<div className={classes.formContainer}>

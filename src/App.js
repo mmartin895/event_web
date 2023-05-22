@@ -23,7 +23,7 @@ register();
 
 function App() {
 	const authCtx = useContext(AuthContext);
-	console.log(" ide aplikcai");
+	// console.log(" ide aplikcai");
 	return (
 		<>
 			{/* {authCtx.isLoggedIn ? (

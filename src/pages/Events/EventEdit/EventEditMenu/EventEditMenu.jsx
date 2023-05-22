@@ -41,7 +41,7 @@ function EventEditMenu(props) {
 	const items = [
 		getItem(
 			<Link to="/home">
-				<h1 style={{ color: "white" }} onClick>
+				<h1 style={{ color: "white" }} onClick={() => {}}>
 					EventUpp
 				</h1>
 			</Link>,
@@ -69,7 +69,7 @@ function EventEditMenu(props) {
 	];
 
 	return (
-		<div>
+		<div className={classes.staticMenuDiv}>
 			<Menu items={items} mode="vertical" color="dark" theme="dark"></Menu>
 		</div>
 	);

@@ -1,0 +1,9 @@
+.staticMenuDiv {
+	display: block;
+}
+
+@media screen and (orientation: portrait) {
+	.staticMenuDiv {
+		display: none;
+	}
+}

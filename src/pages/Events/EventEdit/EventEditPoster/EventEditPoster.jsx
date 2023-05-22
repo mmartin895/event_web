@@ -31,6 +31,7 @@ import AuthContext from "../../../../store/auth-context2";
 import { useParams } from "react-router-dom";
 import default_image from "../../../../assets/large.jpg";
 import EventEditMenu from "../EventEditMenu/EventEditMenu";
+import EventEditSideBar from "../EventEditMenu/EventEditSideBar";
 
 /* eslint-disable no-template-curly-in-string */
 
@@ -178,12 +179,18 @@ const EventEditPoster = () => {
 			span: 6,
 		},
 		wrapperCol: {
-			span: 12,
+			span: 6,
 		},
+	};
+
+	const calcOffset = () => {
+		if (window.innerWidth < 570) return 0;
+		else return 6;
 	};
 
 	return (
 		<>
+			<EventEditSideBar eventName={eventState.name}></EventEditSideBar>
 			<div className={classes.flexRow}>
 				<EventEditMenu className={classes.menu}></EventEditMenu>
 				<div>
@@ -219,7 +226,9 @@ const EventEditPoster = () => {
 									<Button icon={<UploadOutlined />}>Click to upload</Button>
 								</Upload>
 							</Form.Item>
-							<Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 6 }}>
+							<Form.Item
+								wrapperCol={{ ...layout.wrapperCol, offset: calcOffset() }}
+							>
 								<Button type="primary" htmlType="submit">
 									Update event cover
 								</Button>
