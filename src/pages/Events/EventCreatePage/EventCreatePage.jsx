@@ -82,7 +82,6 @@ const EventCreatePage = () => {
 		formData.append("ticketList", JSON.stringify(values.ticketList));
 		formData.append("latlong", JSON.stringify(eventLocation));
 
-
 		try {
 			const createdEvent = await addEventWithPoster(formData, authCtx.token);
 			console.log(createdEvent);
@@ -103,7 +102,6 @@ const EventCreatePage = () => {
 		{ value: "Varaždin" },
 		{ value: "Split" },
 	]);
-
 
 	const [image, setImage] = useState([]);
 
@@ -287,10 +285,18 @@ const EventCreatePage = () => {
 						label="Start time"
 						{...config}
 					>
-						<DatePicker showTime format="YYYY-MM-DD HH:mm" />
+						<DatePicker
+							popupStyle={{ transform: "scale(0.95)" }}
+							showTime
+							format="YYYY-MM-DD HH:mm"
+						/>
 					</Form.Item>
 					<Form.Item name={["event", "endTime"]} label="End time" {...config}>
-						<DatePicker showTime format="YYYY-MM-DD HH:mm" />
+						<DatePicker
+							popupStyle={{ transform: "scale(0.95)" }}
+							showTime
+							format="YYYY-MM-DD HH:mm"
+						/>
 					</Form.Item>
 
 					<Form.Item

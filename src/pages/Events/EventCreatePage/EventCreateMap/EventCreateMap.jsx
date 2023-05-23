@@ -33,7 +33,7 @@ function EventCreateMap(props) {
 			center={center}
 			zoom={13}
 			scrollWheelZoom={false}
-			style={{ height: 300, width: "100%" }}
+			style={{ height: 300, width: "100%", "z-index": 0 }}
 		>
 			<TileLayer
 				attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

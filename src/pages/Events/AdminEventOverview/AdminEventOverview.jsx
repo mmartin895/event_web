@@ -149,6 +149,7 @@ function AdminEventOverview(props) {
 								<div className={classes.iconContainer}>
 									<button
 										onClick={() => {
+											sessionStorage.setItem("previousLocation", "admin");
 											console.log("edit ", event._id);
 											navigate(`/myevents/${event._id}/general`);
 										}}

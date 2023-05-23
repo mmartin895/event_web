@@ -48,7 +48,19 @@ function EventEditMenu(props) {
 
 			"4"
 		),
-		getItem(<Link to="/myevents">Overview</Link>, "5", <RollbackOutlined />),
+		getItem(
+			<Link
+				to={
+					sessionStorage.getItem("previousLocation") != "admin"
+						? "/myevents"
+						: "/admin"
+				}
+			>
+				Overview
+			</Link>,
+			"5",
+			<RollbackOutlined />
+		),
 		getItem(
 			<Link to={url + "general"}>General info</Link>,
 			"1",

@@ -145,6 +145,7 @@ function EventOverviewPage(props) {
 								<div className={classes.iconContainer}>
 									<button
 										onClick={() => {
+											sessionStorage.setItem("previousLocation", "user");
 											console.log("edit ", event._id);
 											navigate(`/myevents/${event._id}/general`);
 										}}

@@ -161,7 +161,7 @@ function EventEditSideBar(props) {
 				>
 					<h1 className="eventNameHeader">{props.eventName}</h1>
 
-					<Link to={"/myevents"}>
+					<Link to={sessionStorage.getItem("previousLocation")!="admin" ? "/myevents" : "/admin"}>
 						<p className="sideBarParagraph">
 							<span>
 								<RollbackOutlined></RollbackOutlined>

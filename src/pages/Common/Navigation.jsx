@@ -1,11 +1,7 @@
 import React, { useContext, useState } from "react";
-import { Menu, Switch } from "antd";
+import { Menu, Switch, Affix } from "antd";
 import {
-	MailOutlined,
-	AppstoreOutlined,
-	SettingOutlined,
 	SearchOutlined,
-	BookOutlined,
 	HomeOutlined,
 	LogoutOutlined,
 	LoginOutlined,
@@ -17,7 +13,6 @@ import {
 } from "@ant-design/icons";
 import AuthContext from "../../store/auth-context2";
 import { Link } from "react-router-dom";
-import { Content } from "antd/lib/layout/layout";
 import classes from "./Navigation.module.scss";
 
 function getItem(label, key, icon = "", children, type) {
@@ -120,15 +115,17 @@ const Navigation = () => {
 
 	return (
 		<>
-			<Menu
-				mode="horizontal"
-				theme={"dark"}
-				onClick={onClick}
-				className={classes.menu}
-				defaultOpenKeys={["sub1"]}
-				selectedKeys={[current]}
-				items={items}
-			/>
+			<Affix>
+				<Menu
+					mode="horizontal"
+					theme={"dark"}
+					onClick={onClick}
+					className={classes.menu}
+					defaultOpenKeys={["sub1"]}
+					selectedKeys={[current]}
+					items={items}
+				/>
+			</Affix>
 		</>
 	);
 };

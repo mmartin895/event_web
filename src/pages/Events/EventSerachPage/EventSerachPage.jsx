@@ -156,7 +156,10 @@ function EventSerachPage(props) {
 							/>
 						</Form.Item>
 						<Form.Item label="Event date range" name="date_range">
-							<RangePicker />
+							<RangePicker
+								// popupClassName={classes.calendarPopup}
+								popupStyle={{ transform: "scale(0.9)" }}
+							/>
 						</Form.Item>
 
 						<Form.Item>
